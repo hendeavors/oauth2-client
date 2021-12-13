@@ -115,7 +115,7 @@ class AccessToken implements AccessTokenInterface, ResourceOwnerAccessTokenInter
             }
 
             $this->expires = $options['expires_in'] != 0 ? $this->getTimeNow() + $options['expires_in'] : 0;
-        } elseif (!empty($options['expires'])) {
+        } elseif (isset($options['expires'])) {
             // Some providers supply the seconds until expiration rather than
             // the exact timestamp. Take a best guess at which we received.
             $expires = $options['expires'];
@@ -192,7 +192,7 @@ class AccessToken implements AccessTokenInterface, ResourceOwnerAccessTokenInter
     {
         $expires = $this->getExpires();
 
-        if (empty($expires)) {
+        if (!isset($expires)) {
             throw new RuntimeException('"expires" is not set on the token');
         }
 

@@ -170,7 +170,30 @@ class AccessTokenTest extends TestCase
 
         $this->expectException(RuntimeException::class);
 
-        $hasExpired = $token->hasExpired();
+        $token->hasExpired();
+
+        self::tearDownForBackwardsCompatibility();
+    }
+
+    public function testZeroCanBeCheckedByHasExpired()
+    {
+        $options = [
+            'access_token' => 'access_token',
+            'expires_in' => 0
+        ];
+        $token = $this->getAccessToken($options);
+
+        $this->assertTrue($token->hasExpired());
+
+        $options = [
+            'access_token' => 'access_token',
+            'expires' => 0
+        ];
+        $token = $this->getAccessToken($options);
+        /* we sleep 1 as the times may be equal depending on the speed of the test */
+        sleep(1);
+
+        $this->assertTrue($token->hasExpired());
 
         self::tearDownForBackwardsCompatibility();
     }
