@@ -189,6 +189,19 @@ class AccessTokenTest extends TestCase
         self::tearDownForBackwardsCompatibility();
     }
 
+    public function testInvalidExpires()
+    {
+        $options = [
+            'access_token' => 'access_token',
+            'expires' => 'TEXT',
+        ];
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->getAccessToken($options);
+
+        self::tearDownForBackwardsCompatibility();
+    }
 
     public function testJsonSerializable()
     {

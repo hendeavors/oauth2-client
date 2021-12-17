@@ -121,6 +121,10 @@ class AccessToken implements AccessTokenInterface, ResourceOwnerAccessTokenInter
             $expires = $options['expires'];
 
             if (!$this->isExpirationTimestamp($expires)) {
+                if (!is_numeric($expires)) {
+                    throw new \InvalidArgumentException('expires value must be an integer');
+                }
+                // throws A non-numeric value encountered PHP 7.1
                 $expires += $this->getTimeNow();
             }
 
